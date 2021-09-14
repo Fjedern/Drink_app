@@ -14,33 +14,33 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/btn_inventory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Inventory"
+        android:text="@string/inventory"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintEnd_toStartOf="@+id/button4"
+        app:layout_constraintEnd_toStartOf="@+id/btn_recepies"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/btn_recepies"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Recepies"
+        android:text="@string/recepies"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintEnd_toStartOf="@+id/button5"
+        app:layout_constraintEnd_toStartOf="@+id/btn_random_drink"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button3" />
+        app:layout_constraintStart_toEndOf="@+id/btn_inventory" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/btn_random_drink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Random drink"
+        android:text="@string/random_drink"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button4" />
+        app:layout_constraintStart_toEndOf="@+id/btn_recepies" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

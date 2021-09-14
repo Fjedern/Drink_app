@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Drink_app">
         <activity
+            android:name=".InventoryActivity"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
