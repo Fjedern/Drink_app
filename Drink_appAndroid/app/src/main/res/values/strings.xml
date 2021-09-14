@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Drink_app</string>
+    <string name="inventory">INVENTORY</string>
+    <string name="recepies">RECEPIES</string>
+    <string name="random_drink">RANDOM DRINK</string>
+    <string name="return_to_main">RETURN TO MAIN</string>
+    <string name="what_can_i_make">WHAT CAN I MAKE?</string>
+    <string name="add">ADD</string>
+    <string name="delete">DELETE</string>
+    <string name="update">UPDATE</string>
+    <string name="ingredients_name">Ingredients name</string>
 </resources>
