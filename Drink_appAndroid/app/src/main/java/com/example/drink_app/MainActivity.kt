@@ -16,21 +16,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val client = APIClient.apiService.fetchDrinks("Gin")
 
-        client.enqueue(object : retrofit2.Callback<DrinkResponse>{
-            override fun onResponse(call: Call<DrinkResponse>, response: Response<DrinkResponse>) {
-                if(response.isSuccessful){
-                    Log.d("1", ""+ response.body())
-                }
-            }
-
-            override fun onFailure(call: Call<DrinkResponse>, t: Throwable) {
-                Log.e("MainActivity", "Something went wrong: " + t)
-            }
-
-        })
-        Log.d("MainActivity", "test")
 
         val btn_inventory: Button = findViewById(R.id.btn_inventory)
         val btn_recepies: Button = findViewById(R.id.btn_recepies)
