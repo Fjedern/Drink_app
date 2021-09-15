@@ -9,7 +9,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 object APIClient {
-    private val BASE_URL = "https://www.thecocktaildb.com/api/json/v1/"
+    private val BASE_URL = "https://www.thecocktaildb.com/api/json/v1/1/"
 
     private val moshi by lazy { Moshi.Builder().add(KotlinJsonAdapterFactory()).build() }
 
@@ -26,6 +26,6 @@ object APIClient {
 }
 
 interface ApiService {
-    @GET("1")
-    fun fetchCharacters(@Query("filter") page : String) : Call<DrinkResponse>
+    @GET("filter.php")
+    fun fetchDrinks(@Query("i") ingredient : String) : Call<DrinkResponse>
 }

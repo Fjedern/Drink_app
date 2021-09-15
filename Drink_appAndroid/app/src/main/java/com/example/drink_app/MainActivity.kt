@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val client = APIClient.apiService.fetchCharacters("Gin")
+        val client = APIClient.apiService.fetchDrinks("Gin")
 
         client.enqueue(object : retrofit2.Callback<DrinkResponse>{
             override fun onResponse(call: Call<DrinkResponse>, response: Response<DrinkResponse>) {
@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         })
         Log.d("MainActivity", "test")
+
         val btn_inventory: Button = findViewById(R.id.btn_inventory)
         val btn_recepies: Button = findViewById(R.id.btn_recepies)
         val btn_random_drink: Button = findViewById(R.id.btn_random_drink)

@@ -11,4 +11,4 @@ data class Drink (
     val strDrinkThumb : String
 )
 
-data class DrinkResponse(@Json(name = "results") val result : List<Drink>)
+data class DrinkResponse(@Json(name = "drinks") val drinks : List<Drink>)
