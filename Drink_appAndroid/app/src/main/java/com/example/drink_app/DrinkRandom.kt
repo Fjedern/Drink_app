@@ -11,39 +11,43 @@ import com.example.drink_app.network.DrinkResponse
 import retrofit2.Call
 import retrofit2.Response
 
-class DrinkList : AppCompatActivity() {
+class DrinkRandom : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_drink_list)
+        setContentView(R.layout.activity_drink_random)
 
-        // search by ingredient
-        val intent = intent
-        val ingredientName = intent.getStringExtra("ingredientName")
-        val client = APIClient.apiService.fetchDrinks(ingredientName.toString())
 
-        // To be removed
-        // val client = APIClient.apiService.fetchDrinks("Gin")
 
-        client.enqueue(object : retrofit2.Callback<DrinkResponse>{
-            override fun onResponse(call: Call<DrinkResponse>, response: Response<DrinkResponse>) {
-                if(response.isSuccessful){
-                    Log.d("1", ""+ response.body())
+        val client = APIClient.apiService2.fetchRandomDrinks("")
+
+
+
+
+        client.enqueue(object : retrofit2.Callback<DrinkResponse> {
+            override fun onResponse(
+                call: Call<DrinkResponse>,
+                response: Response<DrinkResponse>
+            ) {
+                if (response.isSuccessful) {
+                    Log.d("1", "" + response.body())
 
                     val result = response.body()?.drinks
                     result?.let {
-                        val rv_drinks = findViewById<RecyclerView>(R.id.rv_drinks)
+                        val rv_random_drink = findViewById<RecyclerView>(R.id.rv_random_drink)
                         val listAdapter = ListAdapterDrinks(result)
-                        rv_drinks.adapter = listAdapter
-                        rv_drinks.layoutManager = StaggeredGridLayoutManager(
-                            4, StaggeredGridLayoutManager.VERTICAL
+                        rv_random_drink.adapter = listAdapter
+                        rv_random_drink.layoutManager = StaggeredGridLayoutManager(
+                            1, StaggeredGridLayoutManager.VERTICAL
                         )
                     }
                 }
             }
 
             override fun onFailure(call: Call<DrinkResponse>, t: Throwable) {
+
                 // To be removed?
-                showToast("Nothing with ingredient "+ingredientName.toString() + " was found!")
+                showToast("Nothing was found!")
+
                 Log.e("MainActivity", "Something went wrong: " + t)
             }
 
@@ -54,7 +58,7 @@ class DrinkList : AppCompatActivity() {
     private fun showToast(message: String) {
 
         Toast.makeText(
-            this@DrinkList,
+            this@DrinkRandom,
             message ,
             Toast.LENGTH_SHORT
         ).show()

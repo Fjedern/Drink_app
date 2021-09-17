@@ -23,9 +23,16 @@ object APIClient {
     val apiService : ApiService by lazy {
         retrofit.create(ApiService::class.java)
     }
+    val apiService2: ApiService2 by lazy {
+        retrofit.create(ApiService2::class.java)
+    }
 }
 
 interface ApiService {
     @GET("filter.php")
     fun fetchDrinks(@Query("i") ingredient : String) : Call<DrinkResponse>
+}
+interface ApiService2 {
+    @GET("random.php")
+    fun fetchRandomDrinks(@Query("i") ingredient: String): Call<DrinkResponse>
 }
