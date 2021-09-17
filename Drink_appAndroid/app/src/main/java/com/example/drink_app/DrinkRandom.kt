@@ -18,7 +18,7 @@ class DrinkRandom : AppCompatActivity() {
 
 
 
-        val client = APIClient.apiService2.fetchRandomDrinks("")
+        val client = APIClient.apiService.fetchRandomDrinks("")
 
 
 
