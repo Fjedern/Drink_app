@@ -42,7 +42,8 @@ class InventoryActivity : AppCompatActivity() {
 
         btnWhatCanIMake.setOnClickListener {
             // To be removed when not used
-            showToast("What can I make")
+            val intent = Intent(this, DrinkList::class.java)
+            startActivity(intent)
         }
 
         btnAdd.setOnClickListener {
