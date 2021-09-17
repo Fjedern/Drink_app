@@ -18,7 +18,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-
         val btn_inventory: Button = findViewById(R.id.btn_inventory)
         val btn_recepies: Button = findViewById(R.id.btn_recepies)
         val btn_random_drink: Button = findViewById(R.id.btn_random_drink)
@@ -34,9 +33,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         btn_random_drink.setOnClickListener {
-            // To be removed when not used
-            Toast.makeText(this@MainActivity, "You clicked random drink.", Toast.LENGTH_SHORT)
-                .show()
+            val intent = Intent(this, DrinkRandom::class.java)
+            startActivity(intent)
         }
     }
 }

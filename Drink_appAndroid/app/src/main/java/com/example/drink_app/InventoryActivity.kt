@@ -41,9 +41,17 @@ class InventoryActivity : AppCompatActivity() {
         }
 
         btnWhatCanIMake.setOnClickListener {
-            // To be removed when not used
-            val intent = Intent(this, DrinkList::class.java)
-            startActivity(intent)
+            // To be change to variable from DB
+            val etSearchIngredient: EditText = findViewById(R.id.et_search_ingredient)
+
+            if (etSearchIngredient.text.toString() != "") {
+                val intent = Intent(this, DrinkList::class.java)
+                intent.putExtra("ingredientName", etSearchIngredient.text.toString())
+                startActivity(intent)
+            } else {
+                showErrorToast("You must write an ingredient!")
+            }
+
         }
 
         btnAdd.setOnClickListener {
@@ -67,6 +75,15 @@ class InventoryActivity : AppCompatActivity() {
     private fun readIngredientName(): String {
         val etIngredientsName: EditText = findViewById(R.id.et_input)
         return etIngredientsName.text.toString()
+    }
+
+    private fun showErrorToast(errorMessage : String) {
+        closeKeyBoard()
+        Toast.makeText(
+            this@InventoryActivity,
+            errorMessage,
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
 
