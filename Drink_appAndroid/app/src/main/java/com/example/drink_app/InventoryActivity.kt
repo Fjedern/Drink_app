@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,12 +27,13 @@ class InventoryActivity : AppCompatActivity() {
         val btnReturnToMain: Button = findViewById(R.id.btn_return_to_main)
         val etInput: EditText = findViewById(R.id.et_input)
 
+        var data :List<Ingredient>
+
         //Get and create the Database
         val databaseHandler : DatabaseHandler = DatabaseHandler(this)
         val rv_ingredient_list : RecyclerView = findViewById(R.id.rv_ingredient_list)
         val listAdaptor = ListAdaptor(databaseHandler.viewAll())
         rv_ingredient_list.layoutManager = LinearLayoutManager(this)
-
         rv_ingredient_list.adapter = listAdaptor
 
         //BUTTON ONCLICK LISTENERS
@@ -46,14 +48,41 @@ class InventoryActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        //Add ingedient to database and update recycler view
         btnAdd.setOnClickListener {
-            // To be removed when not used
-            showToast("Add")
+
+            //TODO funktion to check input is not empty
+            /*if(etInput.getText().toString().trim().length == 0){
+
+            }*/
+            val ingredient_input : String = etInput.text.toString() //defaultvärde på id?
+            val success = databaseHandler.addToDataBase(ingredient_input)
+
+            if(success == true){
+                showToast(ingredient_input + "was added")
+
+                listAdaptor.notifyItemInserted(databaseHandler.viewAll().size -1) //Not working
+                //listAdaptor.notifyDataSetChanged()
+                etInput.text.clear()
+                //TODO update recycler view with added ingredient??
+
+            }
+            Log.d("database", success.toString())
+
         }
 
         btnDelete.setOnClickListener {
-            // To be removed when not used
-            showToast("Delete")
+            //TODO delete from clicked checkbox. List of checkboxes or event target?
+
+            //hårdkodat, ska tas bort när checkbox fungerar
+            val deleteId = 25
+            databaseHandler.deleteIngredient(deleteId)
+            listAdaptor.notifyItemRemoved(databaseHandler.viewAll().size)
+            listAdaptor.notifyDataSetChanged()
+            showToast("Deleted")
+
+            //TODO update recycler view??
+
         }
 
         btnUpdate.setOnClickListener {

@@ -42,7 +42,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     //get all items from ingredient database and display in Recycler View
     //move to a repository??
     public List<Ingredient> viewAll (){
-        //addToDataBase();
+
         List<Ingredient> returnList = new ArrayList<>();
         String queryString = "SELECT * FROM " + INGREDIENT_TABLE;
         SQLiteDatabase database = this.getReadableDatabase();
@@ -68,14 +68,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return returnList;
     }
 
-    public boolean addToDataBase(){
-
+    public boolean addToDataBase(String ingredient_name){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(COLUMN_INGREDIENT_NAME, "Sugar");
-        //cv.put(COLUMN_INGREDIENT_NAME, "Vodka");
-        //cv.put(COLUMN_INGREDIENT_NAME, "Lime");
-        //cv.put(COLUMN_INGREDIENT_NAME, "Tequila");
+
+        cv.put(COLUMN_INGREDIENT_NAME, ingredient_name);
+
+        /*cv.put(COLUMN_INGREDIENT_NAME, "Sugar");
+        cv.put(COLUMN_INGREDIENT_NAME, "Vodka");
+        cv.put(COLUMN_INGREDIENT_NAME, "Lime");
+        cv.put(COLUMN_INGREDIENT_NAME, "Tequila");*/
 
         System.out.println(cv.size());
 
@@ -83,10 +85,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if(insert == -1){
             return false;
         }
+        db.close();
         return true;
     }
 
-    //TODO add to database
+    public void deleteIngredient(int ingredient_id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String queryString = "DELETE FROM " + INGREDIENT_TABLE + " WHERE " +
+                "ID = " + ingredient_id;
+        /*Cursor cursor = db.rawQuery(queryString, null);
+        db.rawQuery(queryString, null);
+
+        return false;*/
+        String idToString = String.valueOf(ingredient_id);
+        db.delete(INGREDIENT_TABLE, "ID=?", new String[]{idToString});
+        db.close();
+
+    }
     //TODO delete from database
     //TODO update database
 }

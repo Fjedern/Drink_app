@@ -29,6 +29,7 @@
         android:id="@+id/cb_ingredient"
         android:layout_width="0dp"
         android:layout_height="19dp"
+        android:background="@color/checkbox_backgound"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tv_ingredient_name"
