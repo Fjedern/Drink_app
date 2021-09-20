@@ -13,8 +13,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import coil.load
 import coil.transform.CircleCropTransformation
 
@@ -45,10 +43,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getRandomDrink() {
-        val tv_main_activity_random_drink_name: TextView =
-            findViewById(R.id.tv_main_activity_random_drink_name)
-        val iv_main_activity_random_image: ImageView =
-            findViewById(R.id.iv_main_activity_random_image)
+        val tv_random_drink_name: TextView =
+            findViewById(R.id.tv_random_drink_name)
+        val iv_random_image: ImageView =
+            findViewById(R.id.iv_random_image)
 
         val client = APIClient.apiService.fetchRandomDrinks("")
 
@@ -62,8 +60,8 @@ class MainActivity : AppCompatActivity() {
 
                     val result = response.body()?.drinks
                     result?.let {
-                        tv_main_activity_random_drink_name.text = result[0].strDrink
-                        iv_main_activity_random_image.load(result[0].strDrinkThumb) {
+                        tv_random_drink_name.text = result[0].strDrink
+                        iv_random_image.load(result[0].strDrinkThumb) {
                             transformations(CircleCropTransformation())
                         }
                     }
