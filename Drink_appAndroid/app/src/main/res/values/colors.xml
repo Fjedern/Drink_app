@@ -8,4 +8,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="backgound_rv_ingredient">#557572</color>
+    <color name="checkbox_backgound">#B5DBD8</color>
 </resources>

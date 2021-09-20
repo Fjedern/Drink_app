@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class ListAdaptor (val list : List<Ingredient>) : RecyclerView.Adapter<ListAdaptor.ListViewHolder>() {
+class ListAdaptor (var list : List<Ingredient>) : RecyclerView.Adapter<ListAdaptor.ListViewHolder>() {
 
     inner class ListViewHolder(itemView : View) :
             RecyclerView.ViewHolder(itemView)
