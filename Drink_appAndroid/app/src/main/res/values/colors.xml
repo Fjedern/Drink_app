@@ -7,5 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="backgound_rv_ingredient">#557572</color>
+    <color name="backgound_rv_ingredient">#BEA4EC</color>
+    <color name="checkbox_backgound">#673AB7</color>
+    <color name="button_bk_color">#173A37</color>
+    <color name="app_bg">#CDF0EC</color>
+    <color name="buttonText_color">#374040</color>
 </resources>
