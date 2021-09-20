@@ -28,4 +28,7 @@ object APIClient {
 interface ApiService {
     @GET("filter.php")
     fun fetchDrinks(@Query("i") ingredient : String) : Call<DrinkResponse>
+
+    @GET("random.php")
+    fun fetchRandomDrinks(@Query("i") ingredient: String): Call<DrinkResponse>
 }
