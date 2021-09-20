@@ -6,6 +6,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import com.example.drink_app.network.APIClient
+import com.example.drink_app.network.DrinkResponse
+import retrofit2.Call
+import retrofit2.Response
+
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
