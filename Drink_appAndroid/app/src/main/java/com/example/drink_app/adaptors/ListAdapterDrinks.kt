@@ -1,27 +1,19 @@
-package com.example.drink_app
+package com.example.drink_app.adaptors
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 
 
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import coil.load
-import coil.transform.*
 import coil.transform.CircleCropTransformation
-import com.example.drink_app.network.APIClient
+import com.example.drink_app.R
+import com.example.drink_app.ShowDrinkRecipe
 import com.example.drink_app.network.Drink
-import com.example.drink_app.network.DrinkResponse
-import retrofit2.Call
-import retrofit2.Response
 
 class ListAdapterDrinks(val drinkList: List<Drink>) :
     RecyclerView.Adapter<ListAdapterDrinks.ListViewHolder>() {
@@ -53,13 +45,13 @@ class ListAdapterDrinks(val drinkList: List<Drink>) :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ListAdapterDrinks.ListViewHolder {
+    ): ListViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.drink_rv_list, parent, false)
         return ListViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ListAdapterDrinks.ListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         holder.bindData(drinkList[position])
     }
 

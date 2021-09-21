@@ -4,9 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.example.drink_app.adaptors.ListAdapterDrinks
 import com.example.drink_app.network.APIClient
 import com.example.drink_app.network.DrinkResponse
 import retrofit2.Call
