@@ -5,8 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
-import coil.load
-import coil.transform.CircleCropTransformation
+import android.widget.Toast
 import com.example.drink_app.network.APIClient
 import com.example.drink_app.network.DrinkResponseSpecificDrink
 import retrofit2.Call
@@ -22,9 +21,9 @@ class ShowDrinkRecipe : AppCompatActivity() {
         val iv_drink_image: ImageView = findViewById(R.id.iv_drink_image)
 
         val intent = intent
-        val drinkName = intent.getStringExtra("drinkName").toString()
+        val drinkId = intent.getStringExtra("drinkId").toString()
 
-        val client = APIClient.apiService.fetchDrinkByName(drinkName)
+        val client = APIClient.apiService.fetchDrinkByName(drinkId)
 
 
        client.enqueue(object : retrofit2.Callback<DrinkResponseSpecificDrink>{
@@ -63,13 +62,13 @@ class ShowDrinkRecipe : AppCompatActivity() {
 
         })
 
-      /*  tv_drink_name.text=drinkName
+        tv_drink_name.text=drinkId
         Toast.makeText(
             this@ShowDrinkRecipe,
-            drinkName,
+            drinkId,
             Toast.LENGTH_SHORT
 
-        ).show()*/
+        ).show()
 
     }
 }
