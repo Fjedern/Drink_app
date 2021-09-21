@@ -104,7 +104,11 @@ data class SpecificDrink(
     @Json(name = "strCreativeCommonsConfirmed")
     val strCreativeCommonsConfirmed: String?,
     @Json(name = "dateModified")
-    val dateModified: String?
+    val dateModified: String?,
+
+    val ingredientList: List<String?> = mutableListOf(strIngredient1, strIngredient2, strIngredient3, strIngredient4, strIngredient5, strIngredient6, strIngredient7, strIngredient8, strIngredient9, strIngredient10, strIngredient11, strIngredient12, strIngredient13, strIngredient14, strIngredient15)
+
 )
 
 data class DrinkResponseSpecificDrink(@Json(name = "drinks") val drinkByName : List<SpecificDrink>)
+
