@@ -6,6 +6,8 @@ import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.example.drink_app.network.APIClient
 import com.example.drink_app.network.DrinkResponseSpecificDrink
 import retrofit2.Call
@@ -35,10 +37,10 @@ class ShowDrinkRecipe : AppCompatActivity() {
 
                     val result = response.body()?.drinkByName
                     result?.let {
-                        tv_drink_name.text = result[0].idDrink
-                      //  iv_drink_image.load(result[0].strDrinkThumb) {
-                          //  transformations(CircleCropTransformation())
-                        //}
+                        tv_drink_name.text = result[0].strDrink
+
+                        iv_drink_image.load(result[0].strDrinkThumb)
+                        }
                     }  /*val result = response.body()?.drinkByName
                     result?.let {
                         tv_drink_name.text = result[0].strDrink
@@ -53,13 +55,12 @@ class ShowDrinkRecipe : AppCompatActivity() {
                         )*//*
                     }*/
                 }
-            }
 
-            override fun onFailure(call: Call<DrinkResponseSpecificDrink>, t: Throwable) {
-                Log.e("ShowDrinkRecipe", "Something went wrong: " + t)
-                tv_how_to_do_descripton.text = "Fail"
-            }
-
+           override fun onFailure(call: Call<DrinkResponseSpecificDrink>, t: Throwable) {
+               TODO("Not yet implemented")
+               Log.e("ShowDrinkRecipe", "Something went wrong: " + t)
+               tv_how_to_do_descripton.text = "Fail"
+           }
         })
 
         tv_drink_name.text=drinkId
