@@ -23,7 +23,7 @@ class ShowDrinkRecipe : AppCompatActivity() {
         val intent = intent
         val drinkId = intent.getStringExtra("drinkId").toString()
 
-        val client = APIClient.apiService.fetchDrinkByName(drinkId)
+        val client = APIClient.apiService.fetchDrinkById(drinkId)
 
 
        client.enqueue(object : retrofit2.Callback<DrinkResponseSpecificDrink>{

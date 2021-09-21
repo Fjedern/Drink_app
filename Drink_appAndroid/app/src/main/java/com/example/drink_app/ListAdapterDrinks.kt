@@ -33,12 +33,8 @@ class ListAdapterDrinks(val drinkList: List<Drink>) :
 /*
                 Toast.makeText(itemView.getContext(), "DrinkId: " + drinkList[adapterPosition].idDrink, Toast.LENGTH_LONG).show()
 */
-                val tv_name = itemView.findViewById<TextView>(R.id.tv_name)
                 val intent = Intent(itemView.context, ShowDrinkRecipe::class.java)
                 intent.putExtra("drinkId", drinkid)
-/*
-                intent.putExtra("drinkName", tv_name.text.toString())
-*/
                 itemView.context.startActivity(intent)
             }
         }
