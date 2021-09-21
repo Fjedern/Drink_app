@@ -9,7 +9,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import coil.load
-import coil.transform.CircleCropTransformation
 import com.example.drink_app.network.APIClient
 import com.example.drink_app.network.DrinkResponseSpecificDrink
 import retrofit2.Call
@@ -26,8 +25,10 @@ class ShowDrinkRecipe : AppCompatActivity() {
         val iv_drink_image: ImageView = findViewById(R.id.iv_drink_image)
 
         val LL_ingredients: LinearLayout = findViewById(R.id.LL_ingredients)
+        val LL_instructions: LinearLayout = findViewById(R.id.LL_instructions)
 
-        val tv = arrayOfNulls<TextView>(15) //For creating textViews
+        val tvIngredients = arrayOfNulls<TextView>(15) //For creating textViews
+        val tvInstructions = arrayOfNulls<TextView>(20)
         val rnd = Random()
 
         val intent = intent
@@ -52,20 +53,34 @@ class ShowDrinkRecipe : AppCompatActivity() {
 
                         //tv_how_to_do_descripton.text = result?.get(0)?.ingredientList?.size.toString()
                         val ingredientList: List<String?>? = result?.get(0)?.ingredientList
+                        val measureList: List<String?>? = result?.get(0)?.measureList
 
                         if (ingredientList != null) {
                             for (i in ingredientList.indices) {
-                                tv[i] = TextView(this@ShowDrinkRecipe)
+                                tvIngredients[i] = TextView(this@ShowDrinkRecipe)
 
                                 val color: Int = Color.argb(
                                     255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)
                                 )
-                                tv[i]!!.setTextColor(color)
-                                tv[i]!!.text = ingredientList[i]
-                                tv[i]!!.textSize = 15.toFloat()
-                                tv[i]!!.setPadding(10, 10, 10, 10)
-                                LL_ingredients.addView(tv[i])
+                                tvIngredients[i]!!.setTextColor(color)
+                                tvIngredients[i]!!.text = measureList?.get(i) + " " + ingredientList[i]
+                                tvIngredients[i]!!.textSize = 15.toFloat()
+                                tvIngredients[i]!!.setPadding(10, 10, 10, 10)
+                                LL_ingredients.addView(tvIngredients[i])
                             }
+                        }
+
+                        val str = result?.get(0)?.strInstructions
+                        val instructionsArray: List<String>? = str?.split(".")
+
+
+                        for (i in instructionsArray?.indices!!) {
+                            tvInstructions[i] = TextView(this@ShowDrinkRecipe)
+
+                            tvInstructions[i]!!.text = instructionsArray[i]
+                            tvInstructions[i]!!.textSize = 15.toFloat()
+                            //tvInstructions[i]!!.setPadding(10, 10, 10, 10)
+                            LL_instructions.addView(tvInstructions[i])
                         }
                     }
 
