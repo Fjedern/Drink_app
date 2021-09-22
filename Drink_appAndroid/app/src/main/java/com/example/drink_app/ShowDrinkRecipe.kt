@@ -70,7 +70,7 @@ class ShowDrinkRecipe : AppCompatActivity() {
                             }
                         }
 
-                        val str = result?.get(0)?.strInstructions
+                        /*val str = result?.get(0)?.strInstructions
                         val instructionsArray: List<String>? = str?.split(".")
 
 
@@ -81,7 +81,7 @@ class ShowDrinkRecipe : AppCompatActivity() {
                             tvInstructions[i]!!.textSize = 15.toFloat()
                             //tvInstructions[i]!!.setPadding(10, 10, 10, 10)
                             LL_instructions.addView(tvInstructions[i])
-                        }
+                        }*/
                     }
 
                 }
