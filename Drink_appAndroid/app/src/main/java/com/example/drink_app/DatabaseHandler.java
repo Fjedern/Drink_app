@@ -17,8 +17,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     //public static final String COLUMN_INGREDIENT_ID = "INGREDIENT_ID";
     public static final String COLUMN_INGREDIENT_NAME = "INGREDIENT_NAME";
 
+
     //TEST CHECKBOX- also add in createTableStatement
-    //public static final String COLUMN_INGREDIENT_SELECTED = "INGREDIENT_SELECTED";
+    public static final String COLUMN_INGREDIENT_SELECTED = "INGREDIENT_SELECTED";
 
     public DatabaseHandler(@Nullable Context context){
         super(context, "ingredientsDatabase.db", null, 1);
@@ -29,7 +30,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String createTableStatement =
                 "CREATE TABLE " + INGREDIENT_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        COLUMN_INGREDIENT_NAME +  " TEXT)";
+                        COLUMN_INGREDIENT_NAME +  " TEXT," + COLUMN_INGREDIENT_SELECTED + " TEXT)";
 
         sqLiteDatabase.execSQL(createTableStatement);
         //System.out.println("i have created database");
@@ -56,7 +57,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 int ingredient_ID = cursor.getInt(0);
                 String ingredient_name = cursor.getString(1);
 
-                Ingredient ingredient = new Ingredient(ingredient_ID, ingredient_name);
+                Ingredient ingredient = new Ingredient(ingredient_ID, ingredient_name, false);
                 returnList.add(ingredient);
             }while(cursor.moveToNext());
         }else{
@@ -97,4 +98,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     //TODO update invdividual ingredient
+
+    public void changeIsChecked(int ingredient_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_INGREDIENT_SELECTED, "true");
+
+        db.update(INGREDIENT_TABLE, cv, "ID=?", new String[]{String.valueOf(ingredient_id)});
+
+    }
 }
