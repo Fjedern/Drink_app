@@ -101,5 +101,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     //TODO update invdividual ingredient
 
+    public void changeIsChecked(int ingredient_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_INGREDIENT_SELECTED, "true");
+
+        db.update(INGREDIENT_TABLE, cv, "ID=?", new String[]{String.valueOf(ingredient_id)});
+
+    }
 
 }

@@ -52,7 +52,9 @@ class InventoryActivity : AppCompatActivity() {
 
         //BUTTON ONCLICK LISTENERS
 
+
         //TODO move to home-icon in menu
+
 
         btnReturnToMain.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
