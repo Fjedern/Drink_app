@@ -31,4 +31,7 @@ interface ApiService {
 
     @GET("random.php")
     fun fetchRandomDrinks(@Query("i") ingredient: String): Call<DrinkResponse>
+
+    @GET("lookup.php")
+    fun fetchDrinkById(@Query("i") drinkName: String): Call<DrinkResponseSpecificDrink>
 }

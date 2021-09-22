@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.example.drink_app.adaptors.ListAdapterDrinks
 import com.example.drink_app.network.APIClient
 import com.example.drink_app.network.DrinkResponse
 import retrofit2.Call
@@ -34,6 +35,9 @@ class DrinkList : AppCompatActivity() {
                         val rv_drinks = findViewById<RecyclerView>(R.id.rv_drinks)
                         val listAdapter = ListAdapterDrinks(result)
                         rv_drinks.adapter = listAdapter
+/*
+                        rv_drinks.layoutManager = GridLayoutManager(applicationContext, 4)
+*/
                         rv_drinks.layoutManager = StaggeredGridLayoutManager(
                             4, StaggeredGridLayoutManager.VERTICAL
                         )

@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/david/AndroidStudioProjects/Test/Drink_app/Drink_appAndroid/app/src/main/res/layout/activity_main.xml" value="0.3671875" />
+        <entry key="..\:/Users/david/AndroidStudioProjects/Test/Drink_app/Drink_appAndroid/app/src/main/res/layout/activity_show_drink_recipie.xml" value="0.33" />
+        <entry key="..\:/Users/david/AndroidStudioProjects/Test/Drink_app/Drink_appAndroid/app/src/main/res/layout/drink_rv_list.xml" value="0.18" />
         <entry key="..\:/Users/david/AndroidStudioProjects/Test/Drink_app/Drink_appAndroid/app/src/main/res/layout/drinks_layout.xml" value="0.29583333333333334" />
         <entry key="..\:/Users/david/AndroidStudioProjects/Test/Drink_app/Drink_appAndroid/app/src/main/res/layout/inventory_layout.xml" value="0.29583333333333334" />
         <entry key="..\:/Users/david/AndroidStudioProjects/Test/Drink_app/Drink_appAndroid/app/src/main/res/layout/inventory_recycler_list.xml" value="0.29583333333333334" />

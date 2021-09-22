@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                 response: Response<DrinkResponse>
             ) {
                 if (response.isSuccessful) {
-                    Log.d("1", "" + response.body())
+                    //Log.d("1", "" + response.body())
 
                     val result = response.body()?.drinks
                     result?.let {

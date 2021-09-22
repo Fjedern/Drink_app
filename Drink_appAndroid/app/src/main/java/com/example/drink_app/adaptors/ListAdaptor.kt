@@ -1,12 +1,12 @@
-package com.example.drink_app
+package com.example.drink_app.adaptors
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.drink_app.Ingredient
+import com.example.drink_app.R
 
 class ListAdaptor (var list : List<Ingredient>) : RecyclerView.Adapter<ListAdaptor.ListViewHolder>() {
 
