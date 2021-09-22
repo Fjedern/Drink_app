@@ -67,16 +67,12 @@ class MainActivity : AppCompatActivity() {
         client.enqueue(object : retrofit2.Callback<DrinkResponse> {
             override fun onResponse(call: Call<DrinkResponse>, response: Response<DrinkResponse>) {
                 if (response.isSuccessful) {
-                    Log.d("1", "" + response.body())
-
                     val result = response.body()?.drinks
                     result?.let {
                         val rv_drinks = findViewById<RecyclerView>(R.id.rv_random_drink)
                         val listAdapter = ListAdapterDrinks(result)
                         rv_drinks.adapter = listAdapter
-
                         rv_drinks.layoutManager = LinearLayoutManager(this@MainActivity)
-
                     }
                 }
             }
