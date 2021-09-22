@@ -15,8 +15,12 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.example.drink_app.adaptors.ListAdapterDrinks
 
 class MainActivity : AppCompatActivity() {
 
@@ -53,37 +57,27 @@ class MainActivity : AppCompatActivity() {
         btn_random_drink.setOnClickListener {
             getRandomDrink()
         }
+
     }
 
     private fun getRandomDrink() {
-        val tv_random_drink_name: TextView =
-            findViewById(R.id.tv_random_drink_name)
-        val iv_random_image: ImageView =
-            findViewById(R.id.iv_random_image)
 
         val client = APIClient.apiService.fetchRandomDrinks("")
 
         client.enqueue(object : retrofit2.Callback<DrinkResponse> {
-            override fun onResponse(
-                call: Call<DrinkResponse>,
-                response: Response<DrinkResponse>
-            ) {
+            override fun onResponse(call: Call<DrinkResponse>, response: Response<DrinkResponse>) {
                 if (response.isSuccessful) {
-                    //Log.d("1", "" + response.body())
-
                     val result = response.body()?.drinks
                     result?.let {
-                        tv_random_drink_name.text = result[0].strDrink
-                        iv_random_image.load(result[0].strDrinkThumb) {
-                            transformations(CircleCropTransformation())
-                        }
+                        val rv_drinks = findViewById<RecyclerView>(R.id.rv_random_drink)
+                        val listAdapter = ListAdapterDrinks(result)
+                        rv_drinks.adapter = listAdapter
+                        rv_drinks.layoutManager = LinearLayoutManager(this@MainActivity)
                     }
                 }
             }
 
             override fun onFailure(call: Call<DrinkResponse>, t: Throwable) {
-
-
                 Log.e("MainActivity", "Something went wrong: " + t)
             }
         })
