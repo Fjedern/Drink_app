@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         val btn_inventory: Button = findViewById(R.id.btn_inventory)
         val btn_recepies: Button = findViewById(R.id.btn_recepies)
         val btn_random_drink: Button = findViewById(R.id.btn_random_drink)
+        val iv_random_image: ImageView = findViewById(R.id.iv_random_image)
 
         btn_inventory.setOnClickListener {
             val intent = Intent(this, InventoryActivity::class.java)
@@ -53,6 +54,14 @@ class MainActivity : AppCompatActivity() {
         btn_random_drink.setOnClickListener {
             getRandomDrink()
         }
+
+        iv_random_image.setOnClickListener {
+            val tv_drink_id :TextView = findViewById(R.id.tv_drink_id)
+            val intent = Intent(this, ShowDrinkRecipe::class.java)
+            intent.putExtra("drinkId", tv_drink_id.text)
+            startActivity(intent)
+
+        }
     }
 
     private fun getRandomDrink() {
@@ -60,6 +69,7 @@ class MainActivity : AppCompatActivity() {
             findViewById(R.id.tv_random_drink_name)
         val iv_random_image: ImageView =
             findViewById(R.id.iv_random_image)
+        val tv_drink_id :TextView = findViewById(R.id.tv_drink_id)
 
         val client = APIClient.apiService.fetchRandomDrinks("")
 
@@ -73,6 +83,7 @@ class MainActivity : AppCompatActivity() {
 
                     val result = response.body()?.drinks
                     result?.let {
+                        tv_drink_id.text = result[0].idDrink
                         tv_random_drink_name.text = result[0].strDrink
                         iv_random_image.load(result[0].strDrinkThumb) {
                             transformations(CircleCropTransformation())
@@ -82,8 +93,6 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<DrinkResponse>, t: Throwable) {
-
-
                 Log.e("MainActivity", "Something went wrong: " + t)
             }
         })
