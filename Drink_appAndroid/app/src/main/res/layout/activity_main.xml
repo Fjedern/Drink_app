@@ -20,6 +20,13 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.2" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.6" />
+
     <Button
         android:id="@+id/btn_inventory"
         android:layout_width="wrap_content"
@@ -46,40 +53,20 @@
         android:id="@+id/btn_random_drink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="@string/random_drink"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_random_drink_name"
+        app:layout_constraintTop_toTopOf="@+id/guideline4"
         tools:ignore="TextContrastCheck" />
 
-    <ImageView
-        android:id="@+id/iv_random_image"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_random_drink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:srcCompat="@drawable/ic_launcher_background" />
-
-    <TextView
-        android:id="@+id/tv_random_drink_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_random_image" />
-
-    <TextView
-        android:id="@+id/tv_drink_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_random_drink" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

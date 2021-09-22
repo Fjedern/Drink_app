@@ -15,8 +15,12 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.example.drink_app.adaptors.ListAdapterDrinks
 
 class MainActivity : AppCompatActivity() {
 
@@ -39,7 +43,6 @@ class MainActivity : AppCompatActivity() {
         val btn_inventory: Button = findViewById(R.id.btn_inventory)
         val btn_recepies: Button = findViewById(R.id.btn_recepies)
         val btn_random_drink: Button = findViewById(R.id.btn_random_drink)
-        val iv_random_image: ImageView = findViewById(R.id.iv_random_image)
 
         btn_inventory.setOnClickListener {
             val intent = Intent(this, InventoryActivity::class.java)
@@ -55,39 +58,25 @@ class MainActivity : AppCompatActivity() {
             getRandomDrink()
         }
 
-        iv_random_image.setOnClickListener {
-            val tv_drink_id :TextView = findViewById(R.id.tv_drink_id)
-            val intent = Intent(this, ShowDrinkRecipe::class.java)
-            intent.putExtra("drinkId", tv_drink_id.text)
-            startActivity(intent)
-
-        }
     }
 
     private fun getRandomDrink() {
-        val tv_random_drink_name: TextView =
-            findViewById(R.id.tv_random_drink_name)
-        val iv_random_image: ImageView =
-            findViewById(R.id.iv_random_image)
-        val tv_drink_id :TextView = findViewById(R.id.tv_drink_id)
 
         val client = APIClient.apiService.fetchRandomDrinks("")
 
         client.enqueue(object : retrofit2.Callback<DrinkResponse> {
-            override fun onResponse(
-                call: Call<DrinkResponse>,
-                response: Response<DrinkResponse>
-            ) {
+            override fun onResponse(call: Call<DrinkResponse>, response: Response<DrinkResponse>) {
                 if (response.isSuccessful) {
-                    //Log.d("1", "" + response.body())
+                    Log.d("1", "" + response.body())
 
                     val result = response.body()?.drinks
                     result?.let {
-                        tv_drink_id.text = result[0].idDrink
-                        tv_random_drink_name.text = result[0].strDrink
-                        iv_random_image.load(result[0].strDrinkThumb) {
-                            transformations(CircleCropTransformation())
-                        }
+                        val rv_drinks = findViewById<RecyclerView>(R.id.rv_random_drink)
+                        val listAdapter = ListAdapterDrinks(result)
+                        rv_drinks.adapter = listAdapter
+
+                        rv_drinks.layoutManager = LinearLayoutManager(this@MainActivity)
+
                     }
                 }
             }
