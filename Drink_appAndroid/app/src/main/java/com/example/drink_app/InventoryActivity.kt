@@ -13,6 +13,7 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.core.view.forEach
 import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -50,31 +51,28 @@ class InventoryActivity : AppCompatActivity() {
 
 
         //BUTTON ONCLICK LISTENERS
+
+        //TODO move to house icon im menu
         btnReturnToMain.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
 
         btnWhatCanIMake.setOnClickListener {
-            // To be change to variable from DB
-            val etSearchIngredient: EditText = findViewById(R.id.et_search_ingredient)
-
-
-
-            if (etSearchIngredient.text.toString() != "") {
-                val intent = Intent(this, DrinkList::class.java)
-                intent.putExtra("ingredientName", etSearchIngredient.text.toString())
-                startActivity(intent)
-            } else {
-                showErrorToast("You must write an ingredient!")
+            val list = listAdaptor.list
+            for (i in list) {
+                if (i.isChecked) {
+                    val intent = Intent(this, DrinkList::class.java)
+                    intent.putExtra("ingredientName", i.name)
+                    startActivity(intent)
+                    break
+                }
             }
-
         }
 
         //Add ingedient to database and update recycler view
         btnAdd.setOnClickListener {
 
-            //TODO funktion to check input is not empty
             if(etInput.getText().toString().trim().length == 0){ //om värdet är tomt eller bara space
                 showToast("Nothing was entered, please try again")
                 etInput.text.clear()
@@ -88,32 +86,22 @@ class InventoryActivity : AppCompatActivity() {
                     etInput.text.clear()
                 }
                 Log.d("database", success.toString())
+                closeKeyBoard()
             }
 
         }
 
         btnDelete.setOnClickListener {
-            //TODO delete from clicked checkbox. List of checkboxes?
+            val list = listAdaptor.list
 
-            //hårdkodat, ska tas bort när checkbox fungerar
-            //databaseHandler.deleteIngredient(23, 24, 26, 27)
-
-            /*val list = databaseHandler.viewAll()
-
-            for (item in list){
-                if(item.isChecked){
-                    Log.d("delete", item.id.toString())
+            for (i in list){
+                if(i.isChecked){
+                    Log.d("activity", i.name)
+                    databaseHandler.deleteIngredient(i.id)
+                    updateRecycler(databaseHandler, rv_ingredient_list)
                 }
-            }*/
-           //val checkBox: CheckBox = rv_ingredient_list.findViewById(R.id.cb_ingredient)
-
-
-            //updateRecycler(databaseHandler, rv_ingredient_list)
-
-            //TODO recycler still displaying empty rows
-
+            }
         }
-
 
 
         btnUpdate.setOnClickListener {
@@ -123,13 +111,13 @@ class InventoryActivity : AppCompatActivity() {
 
     }
 
+    //INVENTORY FUNCTIONS
     private fun updateRecycler(databaseHandler: DatabaseHandler, rv_ingredient_list: RecyclerView) {
         val drinkList = databaseHandler.viewAll()
         var listAdaptor = ListAdaptor(drinkList)
         rv_ingredient_list.adapter = listAdaptor
     }
 
-    //INVENTORY FUNCTIONS
     private fun readIngredientName(): String {
         val etIngredientsName: EditText = findViewById(R.id.et_input)
         return etIngredientsName.text.toString()
