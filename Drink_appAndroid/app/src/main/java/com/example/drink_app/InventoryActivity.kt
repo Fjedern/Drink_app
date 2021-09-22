@@ -7,10 +7,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.view.forEach
+import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.drink_app.adaptors.ListAdaptor
@@ -55,6 +59,8 @@ class InventoryActivity : AppCompatActivity() {
             // To be change to variable from DB
             val etSearchIngredient: EditText = findViewById(R.id.et_search_ingredient)
 
+
+
             if (etSearchIngredient.text.toString() != "") {
                 val intent = Intent(this, DrinkList::class.java)
                 intent.putExtra("ingredientName", etSearchIngredient.text.toString())
@@ -87,15 +93,28 @@ class InventoryActivity : AppCompatActivity() {
         }
 
         btnDelete.setOnClickListener {
-            //TODO delete from clicked checkbox. List of checkboxes or event target?
+            //TODO delete from clicked checkbox. List of checkboxes?
 
             //hårdkodat, ska tas bort när checkbox fungerar
-            databaseHandler.deleteIngredient(23, 24, 26, 27)
-            updateRecycler(databaseHandler, rv_ingredient_list)
+            //databaseHandler.deleteIngredient(23, 24, 26, 27)
+
+            /*val list = databaseHandler.viewAll()
+
+            for (item in list){
+                if(item.isChecked){
+                    Log.d("delete", item.id.toString())
+                }
+            }*/
+           //val checkBox: CheckBox = rv_ingredient_list.findViewById(R.id.cb_ingredient)
+
+
+            //updateRecycler(databaseHandler, rv_ingredient_list)
 
             //TODO recycler still displaying empty rows
 
         }
+
+
 
         btnUpdate.setOnClickListener {
             // To be removed when not used
