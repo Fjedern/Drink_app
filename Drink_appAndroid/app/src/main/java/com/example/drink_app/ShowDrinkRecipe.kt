@@ -87,7 +87,7 @@ class ShowDrinkRecipe : AppCompatActivity() {
                 }
 
            override fun onFailure(call: Call<DrinkResponseSpecificDrink>, t: Throwable) {
-               TODO("Not yet implemented")
+              // TODO("Not yet implemented")
                Log.e("ShowDrinkRecipe", "Something went wrong: " + t)
                tv_how_to_do_descripton.text = "Fail"
            }
