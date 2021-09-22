@@ -46,6 +46,7 @@ class InventoryActivity : AppCompatActivity() {
 
 
         //BUTTON ONCLICK LISTENERS
+        //TODO move to home-icon in menu
         btnReturnToMain.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
@@ -68,7 +69,6 @@ class InventoryActivity : AppCompatActivity() {
         //Add ingedient to database and update recycler view
         btnAdd.setOnClickListener {
 
-            //TODO funktion to check input is not empty
             if(etInput.getText().toString().trim().length == 0){ //om värdet är tomt eller bara space
                 showToast("Nothing was entered, please try again")
                 etInput.text.clear()

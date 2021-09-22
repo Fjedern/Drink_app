@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -87,14 +88,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public void deleteIngredient(int... ingredient_id) {
-        SQLiteDatabase db = this.getWritableDatabase();
 
-        for(int i: ingredient_id){
-            //System.out.println(i);
-            db.delete(INGREDIENT_TABLE, "ID=?", new String[]{String.valueOf(i)});
-        }
-        db.close();
+            SQLiteDatabase db = this.getWritableDatabase();
+            for(int i: ingredient_id){
+                //System.out.println(i);
+                db.delete(INGREDIENT_TABLE, "ID=?", new String[]{String.valueOf(i)});
+            }
+            db.close();
+
     }
 
     //TODO update invdividual ingredient
+
 }
