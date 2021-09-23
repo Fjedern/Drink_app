@@ -27,9 +27,33 @@ class InventoryActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        //no functionality yet
-        return true
+        // Handle presses on the action bar menu items
+        when (item.itemId) {
+            R.id.mi_home -> {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                return true
+            }
+            R.id.mi_profile -> {
+                Toast.makeText(
+                    this,
+                    "You clicked profile button",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return true
+            }
+            R.id.mi_setting -> {
+                Toast.makeText(
+                    this,
+                    "You clicked settings button",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inventory)
@@ -38,7 +62,6 @@ class InventoryActivity : AppCompatActivity() {
         val btnAdd: Button = findViewById(R.id.btn_add)
         val btnDelete: Button = findViewById(R.id.btn_delete)
         val btnUpdate: Button = findViewById(R.id.btn_update)
-        val btnReturnToMain: Button = findViewById(R.id.btn_return_to_main)
         val etInput: EditText = findViewById(R.id.et_input)
 
 
@@ -51,13 +74,7 @@ class InventoryActivity : AppCompatActivity() {
 
 
         //BUTTON ONCLICK LISTENERS
-
-        //TODO move to house icon im menu
-        btnReturnToMain.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
-
+        
         btnWhatCanIMake.setOnClickListener {
             val list = listAdaptor.list
             for (i in list) {
@@ -123,17 +140,9 @@ class InventoryActivity : AppCompatActivity() {
         return etIngredientsName.text.toString()
     }
 
-    private fun showErrorToast(errorMessage : String) {
-        closeKeyBoard()
-        Toast.makeText(
-            this@InventoryActivity,
-            errorMessage,
-            Toast.LENGTH_SHORT
-        ).show()
-    }
 
 
-    // To be removed when not used
+    // TODO To be removed when not used
     private fun showToast(btnName: String) {
         closeKeyBoard()
         Toast.makeText(
