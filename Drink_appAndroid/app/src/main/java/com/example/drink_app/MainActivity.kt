@@ -23,16 +23,45 @@ import coil.transform.CircleCropTransformation
 import com.example.drink_app.adaptors.ListAdapterDrinks
 
 class MainActivity : AppCompatActivity() {
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        //no functionality
-        return true
+        // Handle presses on the action bar menu items
+        val message : String="This app is made by: " +
+                "\n\n\nSwala,\n\nFjedern,\n\nand\n\nPalmquistS\n\n\n\n" +
+                "Feel free to visit us on GitHub"
+        when (item.itemId) {
+            R.id.mi_home -> {
+                Toast.makeText(
+                    this,
+                    message,
+                    Toast.LENGTH_LONG
+                ).show()
+                return true
+            }
+            R.id.mi_profile -> {
+                Toast.makeText(
+                    this,
+                    message,
+                    Toast.LENGTH_LONG
+                ).show()
+                return true
+            }
+            R.id.mi_setting -> {
+                Toast.makeText(
+                    this,
+                    message,
+                    Toast.LENGTH_LONG
+                ).show()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +78,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        // TODO To be removed?
         btn_recepies.setOnClickListener {
             // To be removed when not used
             Toast.makeText(this@MainActivity, "You clicked recepies.", Toast.LENGTH_SHORT).show()

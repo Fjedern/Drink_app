@@ -31,8 +31,31 @@ class InventoryActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        //no functionality yet
-        return true
+        // Handle presses on the action bar menu items
+        when (item.itemId) {
+            R.id.mi_home -> {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                return true
+            }
+            R.id.mi_profile -> {
+                Toast.makeText(
+                    this,
+                    "You clicked profile button",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return true
+            }
+            R.id.mi_setting -> {
+                Toast.makeText(
+                    this,
+                    "You clicked settings button",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +66,6 @@ class InventoryActivity : AppCompatActivity() {
         val btnAdd: Button = findViewById(R.id.btn_add)
         val btnDelete: Button = findViewById(R.id.btn_delete)
         val btnUpdate: Button = findViewById(R.id.btn_update)
-        val btnReturnToMain: Button = findViewById(R.id.btn_return_to_main)
         val etInput: EditText = findViewById(R.id.et_input)
 
         //Get and create the Database
@@ -55,15 +77,6 @@ class InventoryActivity : AppCompatActivity() {
 
 
         //BUTTON ONCLICK LISTENERS
-
-
-        //TODO move to home-icon in menu
-
-
-        btnReturnToMain.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
 
         btnWhatCanIMake.setOnClickListener {
             val list = listAdaptor.list
@@ -144,6 +157,7 @@ class InventoryActivity : AppCompatActivity() {
         return etIngredientsName.text.toString()
     }
 
+
     private fun showErrorToast(errorMessage: String) {
         closeKeyBoard()
         Toast.makeText(
@@ -154,7 +168,8 @@ class InventoryActivity : AppCompatActivity() {
     }
 
 
-    // To be removed when not used
+
+    // TODO To be removed when not used
     private fun showToast(btnName: String) {
         closeKeyBoard()
         Toast.makeText(
