@@ -52,6 +52,7 @@ class ListAdaptor (var list : List<Ingredient>) : RecyclerView.Adapter<ListAdapt
     fun checkBoxClick(checkBox: CheckBox, position:Int){
 
         if (checkBox.isChecked){
+
             list[position].isChecked = true
             Log.d("adapter", checkBox.id.toString())
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -19,7 +20,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
     //TEST CHECKBOX- also add in createTableStatement
-    public static final String COLUMN_INGREDIENT_SELECTED = "INGREDIENT_SELECTED";
+    //public static final String COLUMN_INGREDIENT_SELECTED = "INGREDIENT_SELECTED";
 
     public DatabaseHandler(@Nullable Context context){
         super(context, "ingredientsDatabase.db", null, 1);
@@ -30,7 +31,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String createTableStatement =
                 "CREATE TABLE " + INGREDIENT_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        COLUMN_INGREDIENT_NAME +  " TEXT," + COLUMN_INGREDIENT_SELECTED + " TEXT)";
+                        COLUMN_INGREDIENT_NAME +  " TEXT)";
 
         sqLiteDatabase.execSQL(createTableStatement);
         //System.out.println("i have created database");
@@ -65,7 +66,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
         cursor.close();
         database.close();
-        System.out.println(returnList.size());
+        //System.out.println(returnList.size());
 
         return returnList;
     }
@@ -88,24 +89,27 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public void deleteIngredient(int... ingredient_id) {
-        SQLiteDatabase db = this.getWritableDatabase();
 
-        for(int i: ingredient_id){
-            //System.out.println(i);
-            db.delete(INGREDIENT_TABLE, "ID=?", new String[]{String.valueOf(i)});
-        }
-        db.close();
-    }
-
-    //TODO update invdividual ingredient
-
-    public void changeIsChecked(int ingredient_id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-
-        cv.put(COLUMN_INGREDIENT_SELECTED, "true");
-
-        db.update(INGREDIENT_TABLE, cv, "ID=?", new String[]{String.valueOf(ingredient_id)});
+            SQLiteDatabase db = this.getWritableDatabase();
+            for(int i: ingredient_id){
+                db.delete(INGREDIENT_TABLE, "ID=?", new String[]{String.valueOf(i)});
+            }
+            db.close();
 
     }
+
+    public boolean updateIngredient(String old_name, String new_name){
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues cv = new ContentValues();
+            cv.put(COLUMN_INGREDIENT_NAME, new_name);
+
+            long update = db.update(INGREDIENT_TABLE, cv, COLUMN_INGREDIENT_NAME + "=? ", new String[]{old_name});
+            if(update == -1){
+                return false;
+            }
+            db.close();
+            return true;
+
+    }
+
 }
