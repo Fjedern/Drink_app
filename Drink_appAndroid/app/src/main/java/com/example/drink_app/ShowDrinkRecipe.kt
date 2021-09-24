@@ -32,7 +32,6 @@ class ShowDrinkRecipe : AppCompatActivity() {
         setContentView(R.layout.activity_show_drink_recipie)
 
         val tv_drink_name: TextView = findViewById(R.id.tv_drink_name)
-        val tv_how_to_do_descripton: TextView = findViewById(R.id.tv_how_to_do_description)
         val iv_drink_image: ImageView = findViewById(R.id.iv_drink_image)
         val tv_instructions: TextView = findViewById(R.id.tv_instructions)
 
@@ -101,7 +100,6 @@ class ShowDrinkRecipe : AppCompatActivity() {
            override fun onFailure(call: Call<DrinkResponseSpecificDrink>, t: Throwable) {
               // TODO("Not yet implemented")
                Log.e("ShowDrinkRecipe", "Something went wrong: " + t)
-               tv_how_to_do_descripton.text = "Fail"
            }
         })
 
