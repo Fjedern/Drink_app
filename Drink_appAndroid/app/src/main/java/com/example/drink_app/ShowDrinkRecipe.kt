@@ -1,5 +1,6 @@
 package com.example.drink_app
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,16 +18,40 @@ import retrofit2.Response
 import java.util.*
 
 class ShowDrinkRecipe : AppCompatActivity() {
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        //no functionality yet
-        return true
+        // Handle presses on the action bar menu items
+        when (item.itemId) {
+            R.id.mi_home -> {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                return true
+            }
+            R.id.mi_profile -> {
+                Toast.makeText(
+                    this,
+                    "You clicked profile button",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return true
+            }
+            R.id.mi_setting -> {
+                Toast.makeText(
+                    this,
+                    "You clicked settings button",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_drink_recipie)
