@@ -1,24 +1,15 @@
 package com.example.drink_app
 
-import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.ContactsContract
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import androidx.cardview.widget.CardView
-import androidx.core.view.forEach
-import androidx.core.view.get
-import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.drink_app.adaptors.ListAdaptor
@@ -71,7 +62,9 @@ class InventoryActivity : AppCompatActivity() {
         //Get and create the Database
         val databaseHandler: DatabaseHandler = DatabaseHandler(this)
         val rv_ingredient_list: RecyclerView = findViewById(R.id.rv_ingredient_list)
-        var listAdaptor = ListAdaptor(databaseHandler.viewAll())
+        var ingredierntList = databaseHandler.viewAll()
+        //  var listAdaptor = ListAdaptor(databaseHandler.viewAll())
+        var listAdaptor = ListAdaptor(ingredierntList)
         rv_ingredient_list.layoutManager = LinearLayoutManager(this)
         rv_ingredient_list.adapter = listAdaptor
 
@@ -79,8 +72,7 @@ class InventoryActivity : AppCompatActivity() {
         //BUTTON ONCLICK LISTENERS
 
         btnWhatCanIMake.setOnClickListener {
-            val list = listAdaptor.list
-            for (i in list) {
+            for (i in ingredierntList) {
                 if (i.isChecked) {
                     val intent = Intent(this, DrinkList::class.java)
                     intent.putExtra("ingredientName", i.name)
@@ -103,54 +95,84 @@ class InventoryActivity : AppCompatActivity() {
                 val success = databaseHandler.addToDataBase(ingredient_input)
 
                 if (success == true) {
-                    //showToast(ingredient_input + "was added")
-                    updateRecycler(databaseHandler, rv_ingredient_list)
+                    val newIngredient =
+                        Ingredient(ingredierntList.last().id + 1, ingredient_input, false)
+                    ingredierntList.add(newIngredient)
+                    updateRecycler(ingredierntList, rv_ingredient_list)
                     etInput.text.clear()
                 }
-                Log.d("database", success.toString())
                 closeKeyBoard()
             }
 
         }
 
         btnDelete.setOnClickListener {
-
-            val list = listAdaptor.list
-
-            for (i in list) {
-                Log.d("debug", i.isChecked.toString())
+            // Create a new list that contains the elements that will be removed
+            var to_be_delete = mutableListOf<Ingredient>()
+            for (i in ingredierntList) {
                 if (i.isChecked) {
-                    databaseHandler.deleteIngredient(i.id)
-                    updateRecycler(databaseHandler, rv_ingredient_list)
-                    i.isChecked = false
-
-                } else {
-                    Log.d("deleteFalse", "nothing is checked")
+                    val item_to_delete =
+                        Ingredient(i.id, i.name, i.isChecked)
+                    to_be_delete.add(item_to_delete)
                 }
             }
+            // If there was any items to remove
+            if (to_be_delete.size != 0) {
+                for (i in to_be_delete) {
+                    databaseHandler.deleteIngredient(i.id)
+                    val number = i.id
+                    val index = findIndex(ingredierntList, number)
+                    ingredierntList.removeAt(index)
+
+                }
+            } else {
+                showErrorToast("Nothing deleted, no item chosen!")
+            }
+            updateRecycler(ingredierntList, rv_ingredient_list)
         }
 
         //hämtar Ingredient name och sätter till EditText-rutan
         btnUpdate.setOnClickListener {
-            val list = listAdaptor.list
-            for (i in list) {
+            var to_be_updated = mutableListOf<Ingredient>()
+            for (i in ingredierntList) {
                 if (i.isChecked) {
-                    //Log.d("activity", i.name)
-                    createPopUp(databaseHandler, rv_ingredient_list, i.name)
-                    i.isChecked = false
-                    break
+                    val item_to_update =
+                        Ingredient(i.id, i.name, i.isChecked)
+                    to_be_updated.add(item_to_update)
                 }
             }
+            if (to_be_updated.size > 0) {
+                for (i in to_be_updated) {
+                    val index = findIndex(ingredierntList, i.id)
+                    createPopUp(ingredierntList, i.name, databaseHandler, index, rv_ingredient_list)
+                }
+            }else {
+                showErrorToast("Nothing updated, no item chosen!")
+            }
+
         }
 
     }
 
-    //INVENTORY FUNCTIONS
-    private fun updateRecycler(databaseHandler: DatabaseHandler, rv_ingredient_list: RecyclerView) {
-        val drinkList = databaseHandler.viewAll()
-        var listAdaptor = ListAdaptor(drinkList)
-        rv_ingredient_list.adapter = listAdaptor
+    fun findIndex(ingredierntList: List<Ingredient>, item: Int): Int {
+
+        for (i in ingredierntList.indices) {
+            if (ingredierntList[i].id == item) {
+                return i
+            }
+        }
+        return -1
     }
+
+    //INVENTORY FUNCTIONS
+
+    private fun updateRecycler(
+        ingredierntList: List<Ingredient>,
+        rvIngredientList: RecyclerView
+    ) {
+        rvIngredientList.adapter = ListAdaptor(ingredierntList)
+    }
+
 
     private fun readIngredientName(): String {
         val etIngredientsName: EditText = findViewById(R.id.et_input)
@@ -166,7 +188,6 @@ class InventoryActivity : AppCompatActivity() {
             Toast.LENGTH_SHORT
         ).show()
     }
-
 
 
     // TODO To be removed when not used
@@ -189,7 +210,13 @@ class InventoryActivity : AppCompatActivity() {
     }
 
     //Created AlertDialog for edit Ingredient name
-    private fun createPopUp(db: DatabaseHandler, rv_list: RecyclerView, updateName: String) {
+    private fun createPopUp(
+        ingredierntList: List<Ingredient>,
+        updateName: String,
+        databaseHandler: DatabaseHandler,
+        index: Int,
+        rv_ingredient_list: RecyclerView
+    ) {
 
         val popupAlert: AlertDialog.Builder = AlertDialog.Builder(this)
         val editText = EditText(this)
@@ -205,10 +232,15 @@ class InventoryActivity : AppCompatActivity() {
 
         popupAlert.setPositiveButton("Save", DialogInterface.OnClickListener { dialogInterface, i ->
             newNameFromPop = editText.text.toString()
-            //Log.d("alertPos", "you clicked saved " + newName)
             if (updateName.lowercase() != newNameFromPop.lowercase() && newNameFromPop.trim().length != 0) {
-                updateIngredientname(db, rv_list, newNameFromPop, updateName)
-                //Log.d("popUp", newNameFromPop)
+                updateIngredientname(
+                    ingredierntList,
+                    newNameFromPop,
+                    updateName,
+                    databaseHandler,
+                    index,
+                    rv_ingredient_list
+                )
             }
         })
 
@@ -226,15 +258,17 @@ class InventoryActivity : AppCompatActivity() {
     }
 
     private fun updateIngredientname(
-        db: DatabaseHandler,
-        rv_list: RecyclerView,
+        ingredientList: List<Ingredient>,
         newNameFromPop: String,
-        updateName: String
+        updateName: String,
+        databaseHandler: DatabaseHandler,
+        index: Int,
+        rv_ingredient_list: RecyclerView
     ) {
-        //Log.d("updateFun", newNameFromPop)
-        db.updateIngredient(updateName, newNameFromPop)
-        updateRecycler(db, rv_list)
+        databaseHandler.updateIngredient(updateName, newNameFromPop)
+        ingredientList[index].name = newNameFromPop
+        ingredientList[index].isChecked = false
+        updateRecycler(ingredientList, rv_ingredient_list)
+
     }
-
-
 }

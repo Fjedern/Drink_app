@@ -14,13 +14,14 @@ import com.example.drink_app.InventoryActivity
 import com.example.drink_app.R
 import org.w3c.dom.Text
 
-class ListAdaptor (var list : List<Ingredient>) : RecyclerView.Adapter<ListAdaptor.ListViewHolder>() {
+class ListAdaptor(var list: List<Ingredient>) : RecyclerView.Adapter<ListAdaptor.ListViewHolder>() {
 
-    inner class ListViewHolder(itemView : View) :
-            RecyclerView.ViewHolder(itemView)
+    inner class ListViewHolder(itemView: View) :
+        RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.inventory_recycler_list, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.inventory_recycler_list, parent, false)
 
         return ListViewHolder(view)
     }
@@ -36,9 +37,8 @@ class ListAdaptor (var list : List<Ingredient>) : RecyclerView.Adapter<ListAdapt
             tv_ingredient_name.text = list[position].name
             checkBox.isChecked = list[position].isChecked
 
-            checkBox.setOnCheckedChangeListener{
-                buttonView, isChecked ->
-                    checkBoxClick(checkBox, position)
+            checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
+                checkBoxClick(checkBox, position)
 
             }
         }
@@ -49,14 +49,13 @@ class ListAdaptor (var list : List<Ingredient>) : RecyclerView.Adapter<ListAdapt
     }
 
     //If checkbox is checked -> Ingredient isChecked = true
-    fun checkBoxClick(checkBox: CheckBox, position:Int){
+    fun checkBoxClick(checkBox: CheckBox, position: Int) {
 
-        if (checkBox.isChecked){
+        if (checkBox.isChecked) {
 
             list[position].isChecked = true
             Log.d("adapter", checkBox.id.toString())
 
-        }
+        } else list[position].isChecked = false
     }
-
 }
