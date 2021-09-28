@@ -62,9 +62,9 @@ class InventoryActivity : AppCompatActivity() {
         //Get and create the Database
         val databaseHandler: DatabaseHandler = DatabaseHandler(this)
         val rv_ingredient_list: RecyclerView = findViewById(R.id.rv_ingredient_list)
-        var ingredierntList = databaseHandler.viewAll()
+        var ingredientList = databaseHandler.viewAll()
         //  var listAdaptor = ListAdaptor(databaseHandler.viewAll())
-        var listAdaptor = ListAdaptor(ingredierntList)
+        var listAdaptor = ListAdaptor(ingredientList)
         rv_ingredient_list.layoutManager = LinearLayoutManager(this)
         rv_ingredient_list.adapter = listAdaptor
 
@@ -72,7 +72,7 @@ class InventoryActivity : AppCompatActivity() {
         //BUTTON ONCLICK LISTENERS
 
         btnWhatCanIMake.setOnClickListener {
-            for (i in ingredierntList) {
+            for (i in ingredientList) {
                 if (i.isChecked) {
                     val intent = Intent(this, DrinkList::class.java)
                     intent.putExtra("ingredientName", i.name)
@@ -96,9 +96,9 @@ class InventoryActivity : AppCompatActivity() {
 
                 if (success == true) {
                     val newIngredient =
-                        Ingredient(ingredierntList.last().id + 1, ingredient_input, false)
-                    ingredierntList.add(newIngredient)
-                    updateRecycler(ingredierntList, rv_ingredient_list)
+                        Ingredient(ingredientList.last().id + 1, ingredient_input, false)
+                    ingredientList.add(newIngredient)
+                    updateRecycler(ingredientList, rv_ingredient_list)
                     etInput.text.clear()
                 }
                 closeKeyBoard()
@@ -108,43 +108,37 @@ class InventoryActivity : AppCompatActivity() {
 
         btnDelete.setOnClickListener {
             // Create a new list that contains the elements that will be removed
-            var to_be_delete = mutableListOf<Ingredient>()
-            for (i in ingredierntList) {
-                if (i.isChecked) {
-                    val item_to_delete =
-                        Ingredient(i.id, i.name, i.isChecked)
-                    to_be_delete.add(item_to_delete)
-                }
-            }
-            // If there was any items to remove
+            val to_be_delete = getCheckedItem(ingredientList)
             if (to_be_delete.size != 0) {
                 for (i in to_be_delete) {
                     databaseHandler.deleteIngredient(i.id)
                     val number = i.id
-                    val index = findIndex(ingredierntList, number)
-                    ingredierntList.removeAt(index)
-
+                    val index = findIndex(ingredientList, number)
+                    if (index != -1) {
+                        ingredientList.removeAt(index)
+                    }
                 }
             } else {
                 showErrorToast("Nothing deleted, no item chosen!")
             }
-            updateRecycler(ingredierntList, rv_ingredient_list)
+            updateRecycler(ingredientList, rv_ingredient_list)
         }
 
         //hämtar Ingredient name och sätter till EditText-rutan
         btnUpdate.setOnClickListener {
-            var to_be_updated = mutableListOf<Ingredient>()
-            for (i in ingredierntList) {
-                if (i.isChecked) {
-                    val item_to_update =
-                        Ingredient(i.id, i.name, i.isChecked)
-                    to_be_updated.add(item_to_update)
-                }
-            }
+            val to_be_updated = getCheckedItem(ingredientList)
             if (to_be_updated.size > 0) {
                 for (i in to_be_updated) {
-                    val index = findIndex(ingredierntList, i.id)
-                    createPopUp(ingredierntList, i.name, databaseHandler, index, rv_ingredient_list)
+                    val index = findIndex(ingredientList, i.id)
+                    if (index != -1) {
+                        createPopUp(
+                            ingredientList,
+                            i.name,
+                            databaseHandler,
+                            index,
+                            rv_ingredient_list
+                        )
+                    }
                 }
             }else {
                 showErrorToast("Nothing updated, no item chosen!")
@@ -152,6 +146,17 @@ class InventoryActivity : AppCompatActivity() {
 
         }
 
+    }
+    fun getCheckedItem(ingredientList: List<Ingredient>):List<Ingredient>{
+        var itemChecked = mutableListOf<Ingredient>()
+        for (i in ingredientList) {
+            if (i.isChecked) {
+                val item_to_update =
+                    Ingredient(i.id, i.name, i.isChecked)
+                itemChecked.add(item_to_update)
+            }
+        }
+        return itemChecked
     }
 
     fun findIndex(ingredierntList: List<Ingredient>, item: Int): Int {
