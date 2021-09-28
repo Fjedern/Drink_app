@@ -21,6 +21,7 @@ class InventoryActivity : AppCompatActivity() {
         return true
     }
 
+    //Menu
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle presses on the action bar menu items
         when (item.itemId) {
@@ -63,14 +64,12 @@ class InventoryActivity : AppCompatActivity() {
         val databaseHandler: DatabaseHandler = DatabaseHandler(this)
         val rv_ingredient_list: RecyclerView = findViewById(R.id.rv_ingredient_list)
         var ingredientList = databaseHandler.viewAll()
-        //  var listAdaptor = ListAdaptor(databaseHandler.viewAll())
         var listAdaptor = ListAdaptor(ingredientList)
         rv_ingredient_list.layoutManager = LinearLayoutManager(this)
         rv_ingredient_list.adapter = listAdaptor
 
 
-        //BUTTON ONCLICK LISTENERS
-
+        //Button onclick listener
         btnWhatCanIMake.setOnClickListener {
             for (i in ingredientList) {
                 if (i.isChecked) {
@@ -87,13 +86,14 @@ class InventoryActivity : AppCompatActivity() {
 
             if (etInput.getText().toString()
                     .trim().length == 0
-            ) { //om värdet är tomt eller bara space
+            ) { //If value empty or spaces
                 showErrorToast("Nothing was entered, please try again")
                 etInput.text.clear()
             } else {
                 val ingredient_input: String = etInput.text.toString()
                 val success = databaseHandler.addToDataBase(ingredient_input)
 
+                //Update recyclerview
                 if (success == true) {
                     val newIngredient =
                         Ingredient(ingredientList.last().id + 1, ingredient_input, false)
@@ -124,7 +124,7 @@ class InventoryActivity : AppCompatActivity() {
             updateRecycler(ingredientList, rv_ingredient_list)
         }
 
-        //hämtar Ingredient name och sätter till EditText-rutan
+        //Get Ingredient name from EditText
         btnUpdate.setOnClickListener {
             val to_be_updated = getCheckedItem(ingredientList)
             if (to_be_updated.size > 0) {
@@ -147,6 +147,9 @@ class InventoryActivity : AppCompatActivity() {
         }
 
     }
+
+    //Inventory functions
+
     fun getCheckedItem(ingredientList: List<Ingredient>):List<Ingredient>{
         var itemChecked = mutableListOf<Ingredient>()
         for (i in ingredientList) {
@@ -168,8 +171,6 @@ class InventoryActivity : AppCompatActivity() {
         }
         return -1
     }
-
-    //INVENTORY FUNCTIONS
 
     private fun updateRecycler(
         ingredierntList: List<Ingredient>,
@@ -194,24 +195,12 @@ class InventoryActivity : AppCompatActivity() {
         ).show()
     }
 
-
-    // TODO To be removed when not used
-    private fun showToast(btnName: String) {
-        closeKeyBoard()
-        Toast.makeText(
-            this@InventoryActivity,
-            "You clicked " + btnName + "\n and ingredient is " + readIngredientName(),
-            Toast.LENGTH_SHORT
-        ).show()
-    }
-
     private fun closeKeyBoard() {
         val view = this.currentFocus
         if (view != null) {
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
-
     }
 
     //Created AlertDialog for edit Ingredient name
@@ -252,14 +241,11 @@ class InventoryActivity : AppCompatActivity() {
         popupAlert.setNegativeButton(
             "Cancel",
             DialogInterface.OnClickListener { dialogInterface, i ->
-
                 dialogInterface.dismiss() //finish() avslutar activity, dismiss avslutar alertDialog
             })
 
-
         val alertDialog: AlertDialog = popupAlert.create()
         alertDialog.show()
-
     }
 
     private fun updateIngredientname(
@@ -274,6 +260,5 @@ class InventoryActivity : AppCompatActivity() {
         ingredientList[index].name = newNameFromPop
         ingredientList[index].isChecked = false
         updateRecycler(ingredientList, rv_ingredient_list)
-
     }
 }

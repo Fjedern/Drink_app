@@ -15,18 +15,13 @@ import java.util.List;
 public class DatabaseHandler extends SQLiteOpenHelper {
 
     public static final String INGREDIENT_TABLE = "INGREDIENT_TABLE";
-    //public static final String COLUMN_INGREDIENT_ID = "INGREDIENT_ID";
     public static final String COLUMN_INGREDIENT_NAME = "INGREDIENT_NAME";
-
-
-    //TEST CHECKBOX- also add in createTableStatement
-    //public static final String COLUMN_INGREDIENT_SELECTED = "INGREDIENT_SELECTED";
 
     public DatabaseHandler(@Nullable Context context){
         super(context, "ingredientsDatabase.db", null, 1);
     }
 
-    //skapar database om den inte redan existerar
+    //Creates a database if one doesn't already exist
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String createTableStatement =
@@ -34,18 +29,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         COLUMN_INGREDIENT_NAME +  " TEXT)";
 
         sqLiteDatabase.execSQL(createTableStatement);
-        //System.out.println("i have created database");
-
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         //Not used
-
     }
 
-    //get all items from ingredient database and display in Recycler View
-    //move to a repository??
+    //Get all items from ingredient database and display in Recycler View
     public List<Ingredient> viewAll (){
 
         List<Ingredient> returnList = new ArrayList<>();
@@ -62,11 +53,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 returnList.add(ingredient);
             }while(cursor.moveToNext());
         }else{
-            //Do nothing?
+            //If cursor fails do something
         }
         cursor.close();
         database.close();
-        //System.out.println(returnList.size());
 
         return returnList;
     }
@@ -77,9 +67,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         cv.put(COLUMN_INGREDIENT_NAME, ingredient_name);
 
-        //cv.put(COLUMN_INGREDIENT_NAME, "Sugar");
-        //System.out.println(cv.size());
-
         long insert = db.insert(INGREDIENT_TABLE, null, cv);
         if(insert == -1){
             return false;
@@ -88,14 +75,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return true;
     }
 
-    public void deleteIngredient(int... ingredient_id) {
-
+    public void deleteIngredient(int... ingredient_id) {    //Can handle multiple inputs
             SQLiteDatabase db = this.getWritableDatabase();
             for(int i: ingredient_id){
                 db.delete(INGREDIENT_TABLE, "ID=?", new String[]{String.valueOf(i)});
             }
             db.close();
-
     }
 
     public boolean updateIngredient(String old_name, String new_name){

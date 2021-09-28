@@ -22,9 +22,8 @@ class ListAdapterDrinks(val drinkList: List<Drink>) :
         init {
             itemView.setOnClickListener {
                 val drinkid = drinkList[adapterPosition].idDrink
-/*
-                Toast.makeText(itemView.getContext(), "DrinkId: " + drinkList[adapterPosition].idDrink, Toast.LENGTH_LONG).show()
-*/
+
+                //Get drinkid on click
                 val intent = Intent(itemView.context, ShowDrinkRecipe::class.java)
                 intent.putExtra("drinkId", drinkid)
                 itemView.context.startActivity(intent)

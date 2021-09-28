@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    //Menu
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle presses on the action bar menu items
         val message : String="This app is made by: " +
@@ -78,7 +79,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // TODO To be removed?
         btn_recepies.setOnClickListener {
             // To be removed when not used
             Toast.makeText(this@MainActivity, "You clicked recepies.", Toast.LENGTH_SHORT).show()
@@ -94,11 +94,13 @@ class MainActivity : AppCompatActivity() {
 
         val client = APIClient.apiService.fetchRandomDrinks("")
 
+        //Api Call
         client.enqueue(object : retrofit2.Callback<DrinkResponse> {
             override fun onResponse(call: Call<DrinkResponse>, response: Response<DrinkResponse>) {
                 if (response.isSuccessful) {
                     val result = response.body()?.drinks
                     result?.let {
+                        //Populate RecyclerView
                         val rv_drinks = findViewById<RecyclerView>(R.id.rv_random_drink)
                         val listAdapter = ListAdapterDrinks(result)
                         rv_drinks.adapter = listAdapter

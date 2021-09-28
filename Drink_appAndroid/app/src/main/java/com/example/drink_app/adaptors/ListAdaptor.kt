@@ -26,8 +26,8 @@ class ListAdaptor(var list: List<Ingredient>) : RecyclerView.Adapter<ListAdaptor
         return ListViewHolder(view)
     }
 
+    //Create card for each ingredient and add an eventlistener to checkbox
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-
         holder.itemView.apply {
             val tv_ingredient_id: TextView = findViewById(R.id.tv_ingredient_id)
             val tv_ingredient_name: TextView = findViewById(R.id.tv_ingredient_name)
@@ -39,7 +39,6 @@ class ListAdaptor(var list: List<Ingredient>) : RecyclerView.Adapter<ListAdaptor
 
             checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
                 checkBoxClick(checkBox, position)
-
             }
         }
     }
@@ -52,7 +51,6 @@ class ListAdaptor(var list: List<Ingredient>) : RecyclerView.Adapter<ListAdaptor
     fun checkBoxClick(checkBox: CheckBox, position: Int) {
 
         if (checkBox.isChecked) {
-
             list[position].isChecked = true
             Log.d("adapter", checkBox.id.toString())
 

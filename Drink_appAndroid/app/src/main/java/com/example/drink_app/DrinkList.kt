@@ -22,6 +22,7 @@ class DrinkList : AppCompatActivity() {
         return true
     }
 
+    //Menu
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle presses on the action bar menu items
         when (item.itemId) {
@@ -59,9 +60,7 @@ class DrinkList : AppCompatActivity() {
         val ingredientName = intent.getStringExtra("ingredientName")
         val client = APIClient.apiService.fetchDrinks(ingredientName.toString())
 
-        // To be removed
-        // val client = APIClient.apiService.fetchDrinks("Gin")
-
+        //API Call
         client.enqueue(object : retrofit2.Callback<DrinkResponse> {
             override fun onResponse(call: Call<DrinkResponse>, response: Response<DrinkResponse>) {
                 if (response.isSuccessful) {
@@ -69,12 +68,11 @@ class DrinkList : AppCompatActivity() {
 
                     val result = response.body()?.drinks
                     result?.let {
+                        //Populate recyclerview
                         val rv_drinks = findViewById<RecyclerView>(R.id.rv_drinks)
                         val listAdapter = ListAdapterDrinks(result)
                         rv_drinks.adapter = listAdapter
-/*
-                        rv_drinks.layoutManager = GridLayoutManager(applicationContext, 4)
-*/
+
                         rv_drinks.layoutManager = StaggeredGridLayoutManager(
                             4, StaggeredGridLayoutManager.VERTICAL
                         )
@@ -82,6 +80,7 @@ class DrinkList : AppCompatActivity() {
                 }
             }
 
+            //If Api Call fails
             override fun onFailure(call: Call<DrinkResponse>, t: Throwable) {
                 // To be removed?
                 showToast("Nothing with ingredient " + ingredientName.toString() + " was found!")

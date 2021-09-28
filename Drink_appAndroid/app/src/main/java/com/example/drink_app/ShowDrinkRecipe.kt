@@ -24,6 +24,7 @@ class ShowDrinkRecipe : AppCompatActivity() {
         return true
     }
 
+    //Menu
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle presses on the action bar menu items
         when (item.itemId) {
@@ -60,11 +61,13 @@ class ShowDrinkRecipe : AppCompatActivity() {
         val iv_drink_image: ImageView = findViewById(R.id.iv_drink_image)
         val tv_instructions: TextView = findViewById(R.id.tv_instructions)
 
+        //Get tablerows for displaying ingredients
         val tr_1: TableRow = findViewById(R.id.tr_1)
         val tr_2: TableRow = findViewById(R.id.tr_2)
         val tr_3: TableRow = findViewById(R.id.tr_3)
 
-        val tvIngredients = arrayOfNulls<TextView>(15) //For creating textViews
+        //List of empty textviews for creating new textviewxs
+        val tvIngredients = arrayOfNulls<TextView>(15)
         val rnd = Random()
 
         val intent = intent
@@ -72,7 +75,7 @@ class ShowDrinkRecipe : AppCompatActivity() {
 
         val client = APIClient.apiService.fetchDrinkById(drinkId)
 
-
+        //Api Call
        client.enqueue(object : retrofit2.Callback<DrinkResponseSpecificDrink>{
             override fun onResponse(call: Call<DrinkResponseSpecificDrink>, response: Response<DrinkResponseSpecificDrink>) {
                 if(response.isSuccessful){
@@ -85,6 +88,7 @@ class ShowDrinkRecipe : AppCompatActivity() {
                         val ingredientList: List<String?>? = result?.get(0)?.ingredientList
                         val measureList: List<String?>? = result?.get(0)?.measureList
 
+                        //Create textviews for every ingredient
                         if (ingredientList != null) {
                             for (i in ingredientList.indices) {
                                 if(ingredientList[i] == null) break
@@ -102,10 +106,10 @@ class ShowDrinkRecipe : AppCompatActivity() {
                                 tvIngredients[i]!!.textSize = 15.toFloat()
                                 tvIngredients[i]!!.setPadding(10, 10, 10, 10)
 
+                                //Add textviews to tablerows
                                 if(i <= 1) tr_1.addView(tvIngredients[i])
                                 else if (i in 2..3) tr_2.addView(tvIngredients[i])
                                 else if (i in 4..6) tr_3.addView(tvIngredients[i])
-
                             }
                         }
 
@@ -123,18 +127,8 @@ class ShowDrinkRecipe : AppCompatActivity() {
                 }
 
            override fun onFailure(call: Call<DrinkResponseSpecificDrink>, t: Throwable) {
-              // TODO("Not yet implemented")
                Log.e("ShowDrinkRecipe", "Something went wrong: " + t)
            }
         })
-
-        /*tv_drink_name.text=drinkId
-        Toast.makeText(
-            this@ShowDrinkRecipe,
-            drinkId,
-            Toast.LENGTH_SHORT
-
-        ).show()*/
-
     }
 }
